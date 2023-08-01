@@ -267,6 +267,8 @@ _out
             rts
             
 parse_drive
+	; IN: A = token#
+			tax
 
           ; Make sure we have an argument
             lda     token_count
@@ -274,7 +276,7 @@ parse_drive
             bcc     _default
             
           ; Make sure it's at least 2 characters
-            lda     #1  ; token 1
+            txa
             jsr     token_length
             cmp     #2
             bcc     _default

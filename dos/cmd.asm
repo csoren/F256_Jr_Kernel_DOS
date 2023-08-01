@@ -273,6 +273,13 @@ _fail
             sta     (kernel.args.buf),y
             jsr     kernel.RunNamed
 .endif
+.if true
+          ; Try to load an external user program on disk, kernel.args.buf is already initialized
+            jsr     external.cmd
+            bcs     _unknown_cmd
+            rts
+_unknown_cmd
+.endif
           ; If the chain failed, unknown command.
             lda     #unknown_str
             jsr     strings.puts
