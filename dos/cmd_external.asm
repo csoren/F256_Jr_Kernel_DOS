@@ -253,15 +253,14 @@ _copy_token
             sta     argv,x
             inx
             lda     #>readline.buf
-            sta     argv+1,x
+            sta     argv,x
             inx
             iny
-            cpy     #readline.MAX_TOKENS
+            cpy     readline.token_count
             bne     _copy_token
 
           ; null terminate argv array
             stz     argv,x
-            inx
             stz     argv+1,x
 
           ; Set ext and extlen to argv and argc
