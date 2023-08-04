@@ -86,16 +86,14 @@ welcome
             jsr     fat32
             rts
 
-hardware            
-            phy
-            ldy     #0
-_loop       lda     _msg,y
-            beq     _done
-            jsr     putc
-            iny
-            bra     _loop
-_done
-            ply
+hardware    
+            phx
+
+            lda     #>_msg
+            ldx     #<_msg
+            jsr     strings.puts_zero
+
+            plx
             rts        
 _msg
             .text   "Foenix F256 by Stefany Allaire", $0a
@@ -103,34 +101,37 @@ _msg
             .text   $0a, $00
 
 ukernel            
-            phy
-            ldy     #0
-_loop       lda     _msg,y
-            beq     _done
-            jsr     putc
-            iny
-            bra     _loop
-_done
-            ply
+            phx
+
+            lda     #>_msg
+            ldx     #<_msg
+            jsr     strings.puts_zero
+
+            lda     #$E0
+            ldx     #$08
+            jsr     strings.puts_zero
+
+            jsr     put_cr
+            jsr     put_cr
+
+            plx
             rts        
 _msg
             .text   "TinyCore MicroKernel", $0a
             .text   "Copyright 2022 Jessie Oberreuter", $0a
             .text   "Gadget@HackwrenchLabs.com",$0a
-            .text   "F256 Edition built ", DATE_STR, $0a
-            .text   $0a, $00
+            .text   "Built/revision: ",0
 
 fat32
-            phy
-            ldy     #0
-_loop       lda     _msg,y
-            beq     _done
-            jsr     putc
-            iny
-            bra     _loop
-_done
-            ply
+            phx
+
+            lda     #>_msg
+            ldx     #<_msg
+            jsr     strings.puts_zero
+
+            plx
             rts        
+
 _msg
             .text   "Fat32 from https://github.com/commanderx16/x16-rom", $0a
             .text   "Copyright 2020 Frank van den Hoef and Michael Steil", $0a
