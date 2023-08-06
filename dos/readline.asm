@@ -19,6 +19,7 @@ cursor      .byte       ?
 length      .byte       ?
 tokens      .fill       MAX_TOKENS
 token_count .byte       ?   ; Token count
+argv        .fill       (readline.MAX_TOKENS+1)*2
             .send
             
             .section    code
@@ -188,6 +189,36 @@ _done
             jsr     display.cursor_on
 
             ply
+            rts
+
+populate_arguments:
+          ; Populate argv array
+            ldx     #0
+            ldy     #0
+_copy_token
+            lda     readline.tokens,y
+            sta     argv,x
+            inx
+            lda     #>readline.buf
+            sta     argv,x
+            inx
+            iny
+            cpy     readline.token_count
+            bne     _copy_token
+
+          ; null terminate argv array
+            stz     argv,x
+            stz     argv+1,x
+
+          ; Set ext and extlen to argv and argc
+            lda     #<argv
+            sta     kernel.args.ext
+            lda     #>argv
+            sta     kernel.args.ext+1
+            lda     readline.token_count
+            asl     a
+            sta     kernel.args.extlen
+
             rts
 
 tokenize

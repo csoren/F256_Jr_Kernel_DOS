@@ -261,6 +261,8 @@ _next
             inx
             bra     _cmd
 _fail
+          ; Set up argument array for user programs
+            jsr     readline.populate_arguments
 .if true
           ; See if it's the name of a binary
             stz     kernel.args.buf+0

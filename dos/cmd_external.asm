@@ -15,7 +15,6 @@ entry       .word   ?
 size        .ends
 
             .section    data
-argv        .fill       (readline.MAX_TOKENS+1)*2
 success     .byte       ?
 stream      .byte       ?
 remaining   .word       ?
@@ -245,32 +244,6 @@ _start_program
             jsr     put_cr
         .endif
 
-          ; Populate argv array
-            ldx     #0
-            ldy     #0
-_copy_token
-            lda     readline.tokens,y
-            sta     argv,x
-            inx
-            lda     #>readline.buf
-            sta     argv,x
-            inx
-            iny
-            cpy     readline.token_count
-            bne     _copy_token
-
-          ; null terminate argv array
-            stz     argv,x
-            stz     argv+1,x
-
-          ; Set ext and extlen to argv and argc
-            lda     #<argv
-            sta     kernel.args.ext
-            lda     #>argv
-            sta     kernel.args.ext+1
-            lda     readline.token_count
-            asl     a
-            sta     kernel.args.extlen
 
           ; Run program
             jsr     _start_enter
