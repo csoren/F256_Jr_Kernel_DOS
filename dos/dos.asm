@@ -43,7 +43,11 @@ mmu         .fill       8
             .cerror * > $00ff, "Out of dp space."
             .endv
 
-            .virtual    $0200   ; Application memory
+            .virtual    $0200
+            .dsection   kupdata ; Data transferable to Kernel User Programs
+            .endv
+
+            .virtual    $0300   ; Application memory
             .dsection   pages   ; Aligned segments
             .endv
 

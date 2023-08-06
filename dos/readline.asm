@@ -19,9 +19,12 @@ cursor      .byte       ?
 length      .byte       ?
 tokens      .fill       MAX_TOKENS
 token_count .byte       ?   ; Token count
+            .send
+
+            .section    kupdata
 argv        .fill       (readline.MAX_TOKENS+1)*2
             .send
-            
+
             .section    code
 
 read            
