@@ -85,65 +85,13 @@ soft
             jmp     cmd.start
 	
 welcome
-            jsr     hardware
-            jsr     ukernel
-            jsr     fat32
-            rts
-
-hardware    
-            phx
-
             lda     #>_msg
             ldx     #<_msg
-            jsr     strings.puts_zero
+            jmp     strings.puts_zero
 
-            plx
-            rts        
-_msg
-            .text   "Foenix F256 by Stefany Allaire", $0a
-            .text   "https://c256foenix.com/f256-jr",$0a
-            .text   $0a, $00
-
-ukernel            
-            phx
-
-            lda     #>_msg
-            ldx     #<_msg
-            jsr     strings.puts_zero
-
-            lda     #$E0
-            ldx     #$08
-            jsr     strings.puts_zero
-
-            jsr     put_cr
-            jsr     put_cr
-
-            plx
-            rts        
-_msg
-            .text   "TinyCore MicroKernel", $0a
-            .text   "Copyright 2022 Jessie Oberreuter", $0a
-            .text   "Gadget@HackwrenchLabs.com",$0a
-            .text   "Built/revision: ",0
-
-fat32
-            phx
-
-            lda     #>_msg
-            ldx     #<_msg
-            jsr     strings.puts_zero
-
-            plx
-            rts        
-
-_msg
-            .text   "Fat32 from https://github.com/commanderx16/x16-rom", $0a
-            .text   "Copyright 2020 Frank van den Hoef and Michael Steil", $0a
-            .text   $0a
-            .text   "Simple DOS Shell, built ", DATE_STR, $0a
-            .text   $0a
-            .byte   $0
+_msg        .text   "Foenix F256 DOS Shell (", DATE_STR, ")", $0a, $0a, 0
             
+
 basic
             lda     #<_basic
             sta     kernel.args.buf+0
