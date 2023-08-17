@@ -153,9 +153,9 @@ _handle_data_read
             lda     kernel.args.buf
             adc     kernel.args.buflen
             sta     kernel.args.buf
-            lda     kernel.args.buf+1
-            adc     #0
-            sta     kernel.args.buf+1
+            bcc     _skip_inc
+            inc     kernel.args.buf+1
+_skip_inc
 
           ; Decrement remaining count
             sec
@@ -257,8 +257,8 @@ _start_program
             sta     $D6A3
             lda     #$80
             sta     $D6A0
-
-          ; ... aaaand we're done
+            stz     $D6A0
+_spin       bra     _spin   ; wait for reset
 
 _exited_reinit
           ; Reinitialize essential DOS functionality.

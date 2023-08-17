@@ -10,10 +10,6 @@ MAX_TOKENS = 8
 line        .word       ?
             .send
              
-            .section    pages
-buf         .fill       256     ; Only need 80, but now it's aligned.
-            .send
-
             .section    data
 cursor      .byte       ?
 length      .byte       ?
@@ -22,6 +18,7 @@ token_count .byte       ?   ; Token count
             .send
 
             .section    kupdata
+buf         .fill       128 ; Only need 80, must be page aligned
 argv        .fill       (readline.MAX_TOKENS+1)*2
             .send
 

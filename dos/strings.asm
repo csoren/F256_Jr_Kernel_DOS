@@ -28,7 +28,7 @@ puts_cr
             jmp     put_cr
 
 puts_zero
-        ; Input - AX string            
+        ; Input - XA string            
             phx
             phy
 
